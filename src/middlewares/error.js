@@ -11,3 +11,5 @@ const errorMiddleware = (err, req, res, next) => {
     field: err.field,
   });
 };
+
+module.exports = errorMiddleware;

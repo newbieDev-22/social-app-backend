@@ -2,6 +2,8 @@ require("dotenv").config;
 const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
+const notFoundMiddleware = require("./middlewares/not-found");
+const errorMiddleware = require("./middlewares/error");
 
 const app = express();
 
