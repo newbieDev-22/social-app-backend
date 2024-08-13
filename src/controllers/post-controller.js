@@ -1,5 +1,5 @@
-const prisma = require("../models/prisma");
 const postService = require("../services/post-service");
+const createError = require("../utils/create-error");
 const tryCatch = require("../utils/try-catch-wrapper");
 
 const postController = {};
@@ -9,8 +9,8 @@ postController.createPost = tryCatch(async (req, res, next) => {
     userId: req.user.id,
     message: req.body.message,
   };
-  await postService.createPost(data);
-  res.status(201).json({ message: "post has been created" });
+  const newPost = await postService.createPost(data);
+  res.status(201).json({ message: "Post has been created", post: newPost });
 });
 
 postController.getAllPosts = tryCatch(async (req, res, next) => {
@@ -23,7 +23,7 @@ postController.updatePost = tryCatch(async (req, res, next) => {
   const post = await postService.findPostById(+postId);
   if (!post) {
     createError({
-      message: "post not found",
+      message: "Post not found",
       statusCode: 400,
     });
   }
@@ -36,8 +36,8 @@ postController.updatePost = tryCatch(async (req, res, next) => {
   }
 
   const data = req.body;
-  await postService.updatePost(+postId, data);
-  res.status(200).json({ message: "post has been updated", post });
+  const updatePost = await postService.updatePost(+postId, data);
+  res.status(200).json({ message: "Post has been updated", post: updatePost });
 });
 
 postController.deletePost = tryCatch(async (req, res, next) => {
@@ -45,7 +45,7 @@ postController.deletePost = tryCatch(async (req, res, next) => {
   const post = await postService.findPostById(+postId);
   if (!post) {
     createError({
-      message: "post not found",
+      message: "Post not found",
       statusCode: 400,
     });
   }
