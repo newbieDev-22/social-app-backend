@@ -26,7 +26,7 @@ model Post {
   updatedAt DateTime @updatedAt @db.Timestamp(0)
   userId    Int
 
-  user     User      @relation(fields: [userId], references: [id])
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   comments Comment[]
 }
 
@@ -38,6 +38,6 @@ model Comment {
   userId    Int
   postId    Int
 
-  user User @relation(fields: [userId], references: [id])
-  post Post @relation(fields: [postId], references: [id])
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
 }

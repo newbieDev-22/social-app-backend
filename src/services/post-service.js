@@ -2,11 +2,24 @@ const prisma = require("../models/prisma");
 
 const postService = {};
 
-postService.createPost = (data) => prisma.post.create({ data });
-postService.getAllPosts = () => prisma.post.findMany({ orderBy: { createdAt: "desc" } });
+postService.createPost = (data) =>
+  prisma.post.create({ select: { id: true, message: true, userId: true }, data });
+postService.getAllPosts = () =>
+  prisma.post.findMany({
+    select: { id: true, message: true, userId: true },
+    orderBy: { createdAt: "desc" },
+  });
 postService.updatePost = (postId, data) =>
-  prisma.post.update({ where: { id: postId }, data });
+  prisma.post.update({
+    select: { id: true, message: true, userId: true },
+    where: { id: postId },
+    data,
+  });
 postService.deletePost = (postId) => prisma.post.delete({ where: { id: postId } });
-postService.findPostById = (postId) => prisma.post.findUnique({ where: { id: postId } });
+postService.findPostById = (postId) =>
+  prisma.post.findUnique({
+    select: { id: true, message: true, userId: true },
+    where: { id: postId },
+  });
 
 module.exports = postService;

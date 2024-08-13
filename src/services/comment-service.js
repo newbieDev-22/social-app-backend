@@ -4,12 +4,23 @@ const commentService = {};
 
 commentService.createComment = (data) => prisma.comment.create({ data });
 commentService.getAllComments = (postId) =>
-  prisma.comment.findMany({ where: { postId }, orderBy: { createdAt: "desc" } });
+  prisma.comment.findMany({
+    select: { id: true, message: true, userId: true, postId: true },
+    where: { postId },
+    orderBy: { createdAt: "asc" },
+  });
 commentService.updateComment = (commentId, data) =>
-  prisma.comment.update({ where: { id: commentId }, data });
+  prisma.comment.update({
+    select: { id: true, message: true, userId: true, postId: true },
+    where: { id: commentId },
+    data,
+  });
 commentService.deleteComment = (commentId) =>
   prisma.comment.delete({ where: { id: commentId } });
 commentService.findCommentById = (commentId) =>
-  prisma.comment.findUnique({ where: { id: commentId } });
+  prisma.comment.findUnique({
+    select: { id: true, message: true, userId: true, postId: true },
+    where: { id: commentId },
+  });
 
 module.exports = commentService;
