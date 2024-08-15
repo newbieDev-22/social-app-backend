@@ -2,16 +2,35 @@ const prisma = require("../models/prisma");
 
 const commentService = {};
 
-commentService.createComment = (data) => prisma.comment.create({ data });
+commentService.createComment = (data) =>
+  prisma.comment.create({
+    select: {
+      id: true,
+      message: true,
+      userId: true,
+      user: { select: { firstName: true, lastName: true } },
+    },
+    data,
+  });
 commentService.getAllComments = (postId) =>
   prisma.comment.findMany({
-    select: { id: true, message: true, userId: true, postId: true },
+    select: {
+      id: true,
+      message: true,
+      userId: true,
+      user: { select: { firstName: true, lastName: true } },
+    },
     where: { postId },
     orderBy: { createdAt: "asc" },
   });
 commentService.updateComment = (commentId, data) =>
   prisma.comment.update({
-    select: { id: true, message: true, userId: true, postId: true },
+    select: {
+      id: true,
+      message: true,
+      userId: true,
+      user: { select: { firstName: true, lastName: true } },
+    },
     where: { id: commentId },
     data,
   });

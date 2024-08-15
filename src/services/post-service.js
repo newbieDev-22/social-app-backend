@@ -3,10 +3,39 @@ const prisma = require("../models/prisma");
 const postService = {};
 
 postService.createPost = (data) =>
-  prisma.post.create({ select: { id: true, message: true, userId: true }, data });
+  prisma.post.create({
+    select: {
+      id: true,
+      message: true,
+      userId: true,
+      user: { select: { firstName: true, lastName: true } },
+      comments: {
+        select: {
+          id: true,
+          message: true,
+          userId: true,
+          user: { select: { firstName: true, lastName: true } },
+        },
+      },
+    },
+    data,
+  });
 postService.getAllPosts = () =>
   prisma.post.findMany({
-    select: { id: true, message: true, userId: true },
+    select: {
+      id: true,
+      message: true,
+      userId: true,
+      user: { select: { firstName: true, lastName: true } },
+      comments: {
+        select: {
+          id: true,
+          message: true,
+          userId: true,
+          user: { select: { firstName: true, lastName: true } },
+        },
+      },
+    },
     orderBy: { createdAt: "desc" },
   });
 postService.updatePost = (postId, data) =>

@@ -46,10 +46,10 @@ commentController.getAllCommentsInPost = tryCatch(async (req, res, next) => {
   const { postId } = req.params;
   const post = await postService.findPostById(+postId);
   if (!post) {
-    return res.status(200).json({ posts: [] });
+    return res.status(200).json({ comments: [] });
   }
-  const posts = await commentService.getAllComments(+postId);
-  res.status(200).json({ posts });
+  const comments = await commentService.getAllComments(+postId);
+  res.status(200).json({ comments });
 });
 
 /**
@@ -80,7 +80,7 @@ commentController.updateComment = tryCatch(async (req, res, next) => {
 
   const data = req.body;
   const updateComment = await commentService.updateComment(+commentId, data);
-  res.status(200).json({ message: "Comment has been updated", updateComment });
+  res.status(200).json({ message: "Comment has been updated", comment: updateComment });
 });
 
 /**
