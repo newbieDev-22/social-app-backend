@@ -1,7 +1,9 @@
 const request = require("supertest");
 const userService = require("../../src/services/user-service");
+const jwtService = require("../../src/services/jwt-service");
 const app = require("../../app");
 
+jest.mock("../../src/services/jwt-service");
 jest.mock("../../src/services/user-service.js");
 
 describe("Auth controller", () => {
@@ -163,6 +165,32 @@ describe("Auth controller", () => {
 
       expect(response.status).toEqual(400);
       expect(response.body.message).toEqual("Invalid credentials");
+    });
+  });
+
+  describe("get-me", () => {
+    test("GET /auth/get-me should return 200 with user data", async () => {
+      const TOKEN = "test-token";
+      const dbData = {
+        id: 1,
+        email: "john@mail.com",
+        firstName: "John",
+        lastName: "Doe",
+        password: "$2a$12$w12F51MEVuQT.N.g1rAwiemxOSG.AI8r4.8Y03A//PAFt455U1JFW",
+        createdAt: "2022-01-01T00:00:00.000Z",
+      };
+      jwtService.verify.mockReturnValue({ id: 1 });
+      userService.findUserById.mockReturnValue(dbData);
+
+      const response = await request(app)
+        .get("/auth/get-me")
+        .set("Authorization", `Bearer ${TOKEN}`);
+
+      expect(response.status).toEqual(200);
+      expect(response.body.user.id).toEqual(1);
+      expect(response.body.user.email).toEqual("john@mail.com");
+      expect(response.body.user.firstName).toEqual("John");
+      expect(response.body.user.lastName).toEqual("Doe");
     });
   });
 });
