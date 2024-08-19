@@ -71,16 +71,4 @@ authController.login = tryCatch(async (req, res, next) => {
   res.status(200).json({ accessToken });
 });
 
-/**
- * Get the current user.
- *
- * @route GET /get-me
- * @group Auth - Operations for user authentication
- * @returns {object} 200 - The current user.
- * @returns {Error} 500 - Internal server error.
- */
-authController.getMe = tryCatch(async (req, res, next) => {
-  res.status(200).json({ user: req.user });
-});
-
 module.exports = authController;

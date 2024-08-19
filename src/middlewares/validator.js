@@ -1,4 +1,4 @@
-const { createError } = require("../utils/create-error");
+const createError = require("../utils/create-error");
 const { registerSchema, loginSchema } = require("../validators/auth-validator");
 const { createComment } = require("../validators/comment-validator");
 const { createPost } = require("../validators/post-validator");

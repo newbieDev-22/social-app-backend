@@ -1,4 +1,4 @@
-const prisma = require("../models/prisma");
+const { prisma } = require("../../client");
 
 const userService = {};
 

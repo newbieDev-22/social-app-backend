@@ -9,7 +9,11 @@ commentRouter.post(
   commentController.createComment
 );
 commentRouter.get("/post/:postId/", commentController.getAllCommentsInPost);
-commentRouter.patch("/:commentId", commentController.updateComment);
+commentRouter.patch(
+  "/:commentId",
+  createCommentValidator,
+  commentController.updateComment
+);
 commentRouter.delete("/:commentId", commentController.deleteComment);
 
 module.exports = commentRouter;
