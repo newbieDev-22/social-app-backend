@@ -8,6 +8,12 @@ This repository provides a backend for a basic social media application with use
 - Simple post creation by users
 - Commenting on existing posts
 
+## Live demo
+
+```
+https://social-app-frontend-six.vercel.app/
+```
+
 ## Installation and Setup
 
 This application consists of separate backend and frontend components.
